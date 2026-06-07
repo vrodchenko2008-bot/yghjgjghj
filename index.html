@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Для солнышка 💖</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI", sans-serif;
+    -webkit-tap-highlight-color:transparent;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:15px;
+    overflow:hidden;
+    background:
+    radial-gradient(circle at top,#ffd6e8,transparent 40%),
+    radial-gradient(circle at bottom,#fff3b0,transparent 40%),
+    linear-gradient(135deg,#ffe3f1,#fff8dd);
+}
+
+/* мягкий "милый" фоновые сердечки */
+body::before{
+    content:"💖 💕 💗 💞 💕 💖";
+    position:fixed;
+    font-size:24px;
+    opacity:0.08;
+    width:100%;
+    text-align:center;
+    top:10%;
+    animation:floatbg 10s infinite linear;
+}
+
+@keyframes floatbg{
+    0%{transform:translateY(0);}
+    100%{transform:translateY(-40px);}
+}
+
+.card{
+    width:100%;
+    max-width:420px;
+    background:rgba(255,255,255,.92);
+    border-radius:30px;
+    padding:22px;
+    text-align:center;
+    box-shadow:0 20px 50px rgba(255,105,180,.25);
+    animation:pop .4s ease;
+    backdrop-filter:blur(10px);
+}
+
+@keyframes pop{
+    from{transform:scale(.95);opacity:0;}
+    to{transform:scale(1);opacity:1;}
+}
+
+.hidden{display:none;}
+
+h2{
+    color:#ff4f93;
+    font-size:20px;
+    margin-bottom:15px;
+    line-height:1.4;
+}
+
+.option{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    padding:14px;
+    margin:10px 0;
+    background:linear-gradient(135deg,#fff0f6,#fff);
+    border-radius:18px;
+    border:1px solid #ffd1e8;
+    transition:.2s;
+}
+
+.option:active{
+    transform:scale(.98);
+}
+
+input{
+    width:18px;
+    height:18px;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    margin-top:12px;
+    border:none;
+    border-radius:18px;
+    font-size:16px;
+    font-weight:700;
+    color:white;
+    background:linear-gradient(135deg,#ff7eb3,#ff4f93);
+    box-shadow:0 8px 20px rgba(255,79,147,.25);
+    cursor:pointer;
+    transition:.2s;
+}
+
+button:active{
+    transform:scale(.97);
+}
+
+button:disabled{
+    opacity:.5;
+}
+
+.heart{
+    font-size:105px;
+    margin:15px 0;
+    transition:.3s;
+    filter:drop-shadow(0 10px 10px rgba(255,0,100,.2));
+}
+
+.modal{
+    position:fixed;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,.7);
+    padding:15px;
+}
+
+.modal-content{
+    width:100%;
+    max-width:340px;
+    background:white;
+    border-radius:25px;
+    padding:15px;
+    text-align:center;
+    animation:pop .3s ease;
+}
+
+.modal img{
+    width:100%;
+    border-radius:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+}
+
+.final{
+    font-size:18px;
+    line-height:1.6;
+    color:#444;
+}
+
+/* плавающие элементы */
+.float{
+    position:fixed;
+    font-size:26px;
+    animation:rise 8s linear infinite;
+    pointer-events:none;
+    opacity:0.9;
+}
+
+@keyframes rise{
+    from{transform:translateY(100vh);}
+    to{transform:translateY(-120px); opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<div id="step1">
+<h2>☀️ Какой напиток хочешь, солнышко?</h2>
+
+<label class="option"><input type="radio" name="drink"> Холодный чай</label>
+<label class="option"><input type="radio" name="drink"> Кола</label>
+<label class="option"><input type="radio" name="drink"> Лимонад</label>
+<label class="option"><input type="radio" name="drink"> Молочный коктейль</label>
+
+<button onclick="next(1,2)">Дальше 💖</button>
+</div>
+
+<div id="step2" class="hidden">
+<h2>🍦 Что вкусненького?</h2>
+
+<label class="option"><input type="radio" name="food"> Мороженое в печенье</label>
+<label class="option"><input type="radio" name="food"> Шоколадный рожок</label>
+<label class="option"><input type="radio" name="food"> Клубничный десерт</label>
+<label class="option"><input type="radio" name="food"> Вафелька</label>
+
+<button onclick="next(2,3)">Дальше 💕</button>
+</div>
+
+<div id="step3" class="hidden">
+<h2>💗 Наполни сердце любовью</h2>
+
+<div id="heart" class="heart">🤍</div>
+
+<button id="loveBtn" onclick="fillLove()">Наполнить 💖</button>
+<button id="nextHeart" onclick="next(3,4)" disabled>Дальше 💕</button>
+</div>
+
+<div id="step4" class="hidden">
+<h2>💞 Кто самая милая?</h2>
+
+<button onclick="showPhoto()">Показать 💕</button>
+<button onclick="next(4,5)">Дальше 💖</button>
+</div>
+
+<div id="step5" class="hidden">
+<h2>🎁 Нажми подарок</h2>
+
+<button onclick="gift()">Открыть ✨</button>
+</div>
+
+<div id="step6" class="hidden final">
+<h2>🌸 Финал</h2>
+<p>
+Ты у меня самая лучшая ❤️<br><br>
+Я очень тебя люблю и скучаю 🥹💖<br><br>
+Солнышко, ты моё счастье ☀️💕
+</p>
+</div>
+
+</div>
+
+<!-- фото -->
+<div class="modal" id="photoModal">
+<div class="modal-content">
+<img src="photo_2026-06-07_15-49-04.jpg">
+<button onclick="closePhoto()">Закрыть 💖</button>
+</div>
+</div>
+
+<script>
+
+function next(a,b){
+document.getElementById("step"+a).classList.add("hidden");
+document.getElementById("step"+b).classList.remove("hidden");
+}
+
+let clicks=0;
+
+function fillLove(){
+
+clicks++;
+
+const heart=document.getElementById("heart");
+
+const arr=["🤍","🩷","💗","💖","💝","❤️"];
+
+heart.innerHTML=arr[clicks];
+
+if(clicks>=5){
+document.getElementById("loveBtn").disabled=true;
+document.getElementById("nextHeart").disabled=false;
+}
+}
+
+function showPhoto(){
+document.getElementById("photoModal").style.display="flex";
+}
+
+function closePhoto(){
+document.getElementById("photoModal").style.display="none";
+}
+
+function gift(){
+
+alert("🎁 Ты получила:\n🍫 шоколад\n⭐ желания\n💖 любовь");
+
+next(5,6);
+
+for(let i=0;i<25;i++){
+let el=document.createElement("div");
+el.className="float";
+el.innerHTML=Math.random()>0.5?"💖":"🌸";
+el.style.left=Math.random()*100+"vw";
+el.style.animationDuration=(6+Math.random()*4)+"s";
+document.body.appendChild(el);
+}
+}
+
+</script>
+
+</body>
+</html>
